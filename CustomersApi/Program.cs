@@ -7,16 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CustomerDataBaseContext>(x =>
 {
     x.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionSqlServer"));
-    //NuGet MySQL: MySql.EntityFrameworkCore
-    //NuGet Oracle: Oracle.ManagedDataAccess.EntityFramework
-    //NuGet SqlServer: Microsoft.EntityFrameworkCore.SqlServer
+    //NuGet DAL MySQL: MySql.EntityFrameworkCore
+    //NuGet DAL Oracle: Oracle.EntityFrameworkCore
+    //NuGet DAL SqlServer: Microsoft.EntityFrameworkCore.SqlServer
 });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddRouting(r => r.LowercaseUrls = true);//las url en min˙sculas
+builder.Services.AddRouting(r => r.LowercaseUrls = true);//las url en min√∫sculas
 
 var app = builder.Build();
 
