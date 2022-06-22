@@ -12,17 +12,26 @@ namespace CustomersApi.Repositories
         }
         public DbSet<CustomerEntity> Customer { get; set; }
 
-        public async Task<CustomerEntity> Get(int id)
+        public async Task<CustomerEntity?> Get(int id)
         {
             try
             {
-                return await Customer.FirstAsync(x => x.Id == id);
+                return await Customer.FirstOrDefaultAsync(x => x.Id == id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
                 throw;
             }
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            CustomerEntity? entity = await Get(id);
+            if (entity == null)
+                return false;
+            Customer.Remove(entity);
+            await SaveChangesAsync();
+            return true;
         }
 
         public async Task<CustomerEntity> Add(CreateCustomerDto customerDto)
@@ -41,14 +50,19 @@ namespace CustomersApi.Repositories
             {
                 response = await Customer.AddAsync(entity);
                 await SaveChangesAsync();
+                return await Get(response.Entity.Id ?? throw new Exception("No se pudo guardar"));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
                 throw;
-            }
-            
-            return await Get(response.Entity.Id ?? throw new Exception("No se pudo guardar"));
+            }            
+        }
+
+        public async Task<bool> Actualizar(CustomerEntity customerEntity)
+        {
+            Customer.Update(customerEntity);
+            await SaveChangesAsync();
+            return true;
         }
     }
 }

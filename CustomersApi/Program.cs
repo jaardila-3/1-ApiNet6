@@ -1,3 +1,4 @@
+using CustomersApi.CasosDeUso;
 using CustomersApi.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,8 @@ builder.Services.AddDbContext<CustomerDataBaseContext>(x =>
     //NuGet DAL Oracle: Oracle.EntityFrameworkCore
     //NuGet DAL SqlServer: Microsoft.EntityFrameworkCore.SqlServer
 });
+
+builder.Services.AddScoped<IUpdateCustomerUseCase, UpdateCustomerUseCase>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
