@@ -13,6 +13,13 @@ builder.Services.AddDbContext<CustomerDataBaseContext>(x =>
     //NuGet DAL SqlServer: Microsoft.EntityFrameworkCore.SqlServer
 });
 
+//configuración del CORS
+//services cors
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 builder.Services.AddScoped<IUpdateCustomerUseCase, UpdateCustomerUseCase>();
 
 builder.Services.AddControllers();
@@ -29,6 +36,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app cors
+app.UseCors("corsapp");
+app.UseHttpsRedirection();
+app.UseAuthorization();
+
 
 app.UseHttpsRedirection();
 
